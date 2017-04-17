@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Developer : Isabel Tomaszewski  Feb 1, 2017 -->
+<!--
+       Inia images used in the Social Grouping image files credit to:
+       By Chris_huh (Own work) [GFDL (http://www.gnu.org/copyleft/fdl.html)
+       or CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/)],
+       via Wikimedia Commons
+       https://commons.wikimedia.org/wiki/File%3AAmazon_river_dolphin_size.svg
+-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1f2f8"
+    tools:context="com.valenciaprogrammers.dolphintracking.AdditionalDataActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/additionalToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:layout_gravity="left"
+            />
+    </android.support.v7.widget.Toolbar>/>
+    <!--  **************    Dolphin Behavior  ******************************   -->
+
+    <TextView
+        android:id="@+id/behaviorTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/additionalToolbar"
+        android:background="@android:drawable/screen_background_light"
+        android:text="Dolphin Behavior"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textIsSelectable="false"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <ImageButton
+        android:id="@+id/cooperationImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/behaviorTextView"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickCooperationBehavior"
+        app:srcCompat="@drawable/cooperation" />
+
+    <ImageButton
+        android:id="@+id/fishingImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/cooperationImageButton"
+        android:layout_marginLeft="45dp"
+        android:layout_toRightOf="@+id/cooperationImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickFishingBehavior"
+        app:srcCompat="@drawable/fishing" />
+
+    <ImageButton
+        android:id="@+id/splashingImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/cooperationImageButton"
+        android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@+id/fishingImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickSplashingBehavior"
+        app:srcCompat="@drawable/splashing" />
+
+    <ImageButton
+        android:id="@+id/jumpingImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/cooperationImageButton"
+        android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@+id/splashingImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickJumpingBehavior"
+        app:srcCompat="@drawable/jumping" />
+
+    <ImageButton
+        android:id="@+id/fightingImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_alignTop="@+id/cooperationImageButton"
+        android:layout_toRightOf="@id/jumpingImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickFightingBehavior"
+        app:srcCompat="@drawable/fighting" />
+
+
+    <ImageButton
+        android:id="@+id/sexualImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/cooperationImageButton"
+        android:layout_marginTop="35dp"
+        android:layout_below="@id/cooperationImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickSexualBehavior"
+        app:srcCompat="@drawable/sexual" />
+
+
+    <ImageButton
+        android:id="@+id/tossingImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/fishingImageButton"
+        android:layout_alignTop="@+id/sexualImageButton"
+        android:layout_toRightOf="@id/sexualImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickTossingBehavior"
+        app:srcCompat="@drawable/tossing" />
+
+    <ImageButton
+        android:id="@+id/millingImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/splashingImageButton"
+        android:layout_alignTop="@+id/sexualImageButton"
+        android:layout_toRightOf="@id/tossingImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickMillingBehavior"
+        app:srcCompat="@drawable/milling" />
+
+    <ImageButton
+        android:id="@+id/travelingImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/jumpingImageButton"
+        android:layout_alignTop="@+id/sexualImageButton"
+        android:layout_toRightOf="@id/millingImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickTravelingBehavior"
+        app:srcCompat="@drawable/traveling" />
+
+    <ImageButton
+        android:id="@+id/objectImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/fightingImageButton"
+        android:layout_alignTop="@+id/sexualImageButton"
+        android:layout_toRightOf="@id/travelingImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickObjectInMouthBehavior"
+        android:layout_alignStart="@+id/fightingImageButton"
+        app:srcCompat="@drawable/object" />
+
+    <ImageButton
+        android:id="@+id/number1ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/sexualImageButton"
+        android:layout_marginTop="35dp"
+        android:layout_below="@id/sexualImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickNumber1Behavior"
+        app:srcCompat="@drawable/number1" />
+
+    <ImageButton
+        android:id="@+id/number2ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/number1ImageButton"
+        android:layout_toRightOf="@id/number1ImageButton"
+        android:layout_marginLeft="15dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickNumber2Behavior"
+        app:srcCompat="@drawable/number2" />
+
+    <ImageButton
+        android:id="@+id/number3ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/number1ImageButton"
+        android:layout_toRightOf="@id/number2ImageButton"
+        android:layout_marginLeft="15dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickNumber3Behavior"
+        app:srcCompat="@drawable/number3" />
+
+    <ImageButton
+        android:id="@+id/number4ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/number1ImageButton"
+        android:layout_toRightOf="@id/number3ImageButton"
+        android:layout_marginLeft="15dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickNumber4Behavior"
+        app:srcCompat="@drawable/number4" />
+
+    <ImageButton
+        android:id="@+id/number5ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/number1ImageButton"
+        android:layout_toRightOf="@id/number4ImageButton"
+        android:layout_marginLeft="15dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickNumber5Behavior"
+        app:srcCompat="@drawable/number5" />
+
+    <ImageButton
+        android:id="@+id/number6ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/number1ImageButton"
+        android:layout_toRightOf="@id/number5ImageButton"
+        android:layout_marginLeft="15dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickNumber6Behavior"
+        app:srcCompat="@drawable/number6" />
+
+    <ImageButton
+        android:id="@+id/number7ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/number1ImageButton"
+        android:layout_toRightOf="@id/number6ImageButton"
+        android:layout_marginLeft="15dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickNumber7Behavior"
+        app:srcCompat="@drawable/number7" />
+
+
+    <!-- ** end Dolphin Behavior ***-->
+
+
+    <!-- **************  Dolphin Social Grouping  ***************************-->
+    <TextView
+        android:id="@+id/socialGroupingTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/number1ImageButton"
+        android:layout_marginTop="30dp"
+        android:background="@android:drawable/screen_background_light"
+        android:text="Dolphin Social Grouping"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textIsSelectable="false"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+
+    <ImageButton
+        android:id="@+id/mothercalfImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/socialGroupingTextView"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickMotherCalfGrouping"
+        app:srcCompat="@drawable/mothercalf" />
+
+    <ImageButton
+        android:id="@+id/babysittingImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/mothercalfImageButton"
+        android:layout_marginLeft="30dp"
+        android:layout_toRightOf="@+id/mothercalfImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickBabysittingGrouping"
+        app:srcCompat="@drawable/babysitting" />
+
+    <ImageButton
+        android:id="@+id/multipleyoungImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/mothercalfImageButton"
+        android:layout_marginLeft="30dp"
+        android:layout_toRightOf="@+id/babysittingImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickMultipleYoungGrouping"
+        app:srcCompat="@drawable/multipleyoung" />
+
+    <ImageButton
+        android:id="@+id/adultsImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/mothercalfImageButton"
+        android:layout_marginLeft="30dp"
+        android:layout_toRightOf="@+id/multipleyoungImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickAdultsGrouping"
+        app:srcCompat="@drawable/adults" />
+
+    <ImageButton
+        android:id="@+id/mixedgroupImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/mothercalfImageButton"
+        android:layout_marginLeft="30dp"
+        android:layout_toRightOf="@+id/adultsImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickMixedGrouping"
+        app:srcCompat="@drawable/mixedgroup" />
+    <!--  ** end Dolphin Social Grouping ** -->
+
+    <!--  **  Audio Buttons ** -->
+
+    <Button
+        android:id="@+id/recordAudioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/mothercalfImageButton"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="40dp"
+        android:onClick="recordAudioButtonPush"
+        android:text="@string/action_record"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/playAudioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/recordAudioButton"
+        android:layout_marginLeft="40dp"
+        android:layout_toRightOf="@+id/recordAudioButton"
+        android:onClick="playAudioButtonPush"
+        android:text="@string/action_play_recording"
+        android:textSize="18sp" />
+    <!--  **  End Audio Buttons ** -->
+
+    <!--  **  Text Entry field   ** -->
+    <TextView
+        android:id="@+id/additionalTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/recordAudioButton"
+        android:layout_marginTop="40dp"
+        android:background="@android:drawable/screen_background_light"
+        android:text="@string/heading_additional_text"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textIsSelectable="false"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/additionalTextView"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:textSize="18sp" />
+    <!--  ** End Text Entry field   ** -->
+
+</RelativeLayout>

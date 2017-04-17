@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">Dolphin Tracking</string>
+    <string name="heading_behavior">Dolphin Behavior</string>
+    <string name="heading_grouping">Dolphin Social Grouping</string>
+    <string name="group_sighting_message">  ***   GROUP SIGHTING   ***</string>
+    <string name="heading_additional_text">Please enter your additional comments:</string>
+    <string name="action_save">SAVE</string>
+    <string name="action_group_off">G?</string>
+    <string name="action_group_on">G!</string>
+    <string name="action_additional">ADDITIONAL</string>
+    <string name="action_show_all_data">Show All Data</string>
+    <string name="action_create_csv">Create CSV file</string>
+    <string name="action_send_email">Create and export CSV</string>
+    <string name="action_delete_db">Delete all Database Data</string>
+    <string name="action_record">RECORD AUDIO</string>
+    <string name="action_re_record">RE-RECORD</string>
+    <string name="action_stop_record">*STOP RECORDING*</string>
+    <string name="action_play_recording">PLAY RECORDING</string>
+    <string name="action_stop_play">STOP PLAYING</string>
+    <string name="eula_title">License</string>
+    <string name="eula_accept">Accept</string>
+    <string name="eula_refuse">Refuse</string>
+    <string name="build_delete_title">*  Delete all data?? *</string>
+    <string name="build_delete_message">Do you want to delete the database data?</string>
+    <string name="build_delete_positive">Delete</string>
+    <string name="build_delete_negative">NO!!</string>
+    <string name="email_subject">Dolphin Tracker app CSV file</string>
+    <string name="email_text1">The CSV file created on </string>
+    <string name="email_text2"> at </string>
+    <string name="toast_start_recording">Recording Started</string>
+    <string name="toast_end_recording">Recording Finished</string>
+    <string name="toast_start_play">Recording Playing</string>
+    <string name="build_need_location_title">Select Dolphin Location</string>
+    <string name="build_need_location">Please touch dolphin location on map.\nData can not save without a location.</string>
+    <string name="build_error_saving_title">Error Saving Data</string>
+    <string name="build_error_saving">There was an error saving the data!\nPossible solution: Export to CSV and Delete All Data.</string>
+    <string name="build_no_email_title">No Email SetUp</string>
+    <string name="build_no_email">There are no email clients installed.\nPlease install email account on tablet.</string>
+    <string name="build_export_denied_title">CSV Export Error</string>
+    <string name="build_export_denied">Cannot export due to storage permission being denied. Please change in app settings.</string>
+    <string name="build_no_file_title">CSV Create Error</string>
+    <string name="build_no_file">Error encountered trying to create CSV file.</string>
+    <string name="build_write_error_title">CSV Write Error</string>
+    <string name="build_write_error">Error encountered when writing to the CSV file.\nCheck if there is sufficient storage available.</string>
+    <string name="build_poor_gps_title">Poor GPS Signal</string>
+    <string name="build_poor_gps">Could not find accurate GPS location.  GPS will continue to run, but records saved before GPS lock will not have accurate GPS information.</string>
+    <string name="build_audio_denied_title">Audio Recording/Playing Denied</string>
+    <string name="build_audio_denied">Audio Recording/Playing not allowed due to microphone and storage permission denied.  Please change in app settings.</string>
+</resources>
+
+

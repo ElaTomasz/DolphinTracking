@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main_tracking"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1f2f8"
+    android:paddingBottom="16dp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.valenciaprogrammers.dolphintracking.MainTrackingActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:layout_gravity="left"
+            />
+    </android.support.v7.widget.Toolbar>/>
+
+    <!--  ***********  Polar Map Image  ************************************************  -->
+
+    <ImageView
+        android:id="@+id/polarMapImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="false"
+        android:layout_below = "@id/toolbar"
+        android:layout_centerInParent="true"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/polarmap9" />
+
+    <!--  ***********   Sighting data display   ****************************************  -->
+
+    <TextView
+        android:id="@+id/sightingTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/polarMapImageView"
+        android:layout_marginTop="5dp"
+        android:text="Sighting \nData"
+        android:textAlignment="center" />
+
+
+    <!--  **********   Dolphin Size   *************************************************  -->
+
+    <ImageButton
+        android:id="@+id/smalldolphinImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/sightingTextView"
+        android:layout_below="@+id/sightingTextView"
+        android:layout_marginTop="20dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickSmallDolphin"
+        app:srcCompat="@drawable/smalldolphin" />
+
+    <ImageButton
+        android:id="@+id/mediumdolphinImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/sightingTextView"
+        android:layout_below="@+id/smalldolphinImageButton"
+        android:layout_marginTop="40dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickMediumDolphin"
+        app:srcCompat="@drawable/mediumdolphin" />
+
+    <ImageButton
+        android:id="@+id/largedolphinImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/sightingTextView"
+        android:layout_below="@+id/mediumdolphinImageButton"
+        android:layout_marginTop="40dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickLargeDolphin"
+        app:srcCompat="@drawable/largedolphin" />
+
+    <!--  ***********   Dolphin Color   ************************************************  -->
+
+    <ImageButton
+        android:id="@+id/greycolorImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/pinkcolorImageButton"
+        android:layout_below="@+id/sightingTextView"
+        android:layout_marginTop="20dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickGreyDolphin"
+        app:srcCompat="@drawable/greycolor" />
+
+    <ImageButton
+        android:id="@+id/pinkgreycolorImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/pinkcolorImageButton"
+        android:layout_below="@+id/greycolorImageButton"
+        android:layout_marginTop="15dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickPinkGreyDolphin"
+        app:srcCompat="@drawable/pinkgreycolor" />
+
+    <ImageButton
+        android:id="@+id/pinkcolorImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pinkgreycolorImageButton"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/largedolphinImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickPinkDolphin"
+        app:srcCompat="@drawable/pinkcolor" />
+
+    <!--  ***********   Dolphin Energy  ************************************************  -->
+
+    <ImageButton
+        android:id="@+id/lowenergyImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/highenergyImageButton"
+        android:layout_below="@+id/sightingTextView"
+        android:layout_marginTop="35dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickLowEnergy"
+        app:srcCompat="@drawable/lowenergy" />
+
+    <ImageButton
+        android:id="@+id/mediumenergyImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/highenergyImageButton"
+        android:layout_below="@+id/lowenergyImageButton"
+        android:layout_marginTop="35dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickMediumEnergy"
+        app:srcCompat="@drawable/mediumenergy" />
+
+    <ImageButton
+        android:id="@+id/highenergyImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/largedolphinImageButton"
+        android:layout_marginLeft="30dp"
+        android:layout_toRightOf="@+id/pinkcolorImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickHighEnergy"
+        app:srcCompat="@drawable/highenergy" />
+
+    <!--  ***********   Dolphin Swimming Activity  **************************************  -->
+
+    <ImageButton
+        android:id="@+id/floatingactivityImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/jumpingactivityImageButton"
+        android:layout_below="@+id/sightingTextView"
+        android:layout_marginTop="20dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickFloating"
+        app:srcCompat="@drawable/floatingactivity" />
+
+    <ImageButton
+        android:id="@+id/movingslowactivityImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/jumpingactivityImageButton"
+        android:layout_below="@+id/floatingactivityImageButton"
+        android:layout_marginTop="20dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickSlowSwimming"
+        app:srcCompat="@drawable/movingslowactivity" />
+
+    <ImageButton
+        android:id="@+id/movingregularactivityImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/jumpingactivityImageButton"
+        android:layout_below="@+id/movingslowactivityImageButton"
+        android:layout_marginTop="20dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickRegularSwimming"
+        app:srcCompat="@drawable/movingregularactivity" />
+
+    <ImageButton
+        android:id="@+id/jumpingactivityImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/movingregularactivityImageButton"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/highenergyImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickJumpingSwimming"
+        app:srcCompat="@drawable/jumpingactivity" />
+
+    <!--  ***********   Dolphin Acsoutics  ************************************************  -->
+
+    <ImageButton
+        android:id="@+id/onaxisacousticsImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sightingTextView"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/floatingactivityImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickOnAxisAcousticsImageButton"
+        app:srcCompat="@drawable/onaxisacoustics" />
+
+    <ImageButton
+        android:id="@+id/bubblesacousticsImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/onaxisacousticsImageButton"
+        android:layout_below="@+id/onaxisacousticsImageButton"
+        android:layout_marginTop="20dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickBubblesAcousticsImageButton"
+        app:srcCompat="@drawable/bubblesacoustics" />
+
+    <ImageButton
+        android:id="@+id/chuffacousticsImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/bubblesacousticsImageButton"
+        android:layout_below="@+id/bubblesacousticsImageButton"
+        android:layout_marginTop="20dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickChuffAcousticsImageButton"
+        app:srcCompat="@drawable/chuffacoustics" />
+
+    <ImageButton
+        android:id="@+id/popcornacousticsImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sightingTextView"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/onaxisacousticsImageButton"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickPopcornAcousticsImageButton"
+        app:srcCompat="@drawable/popcornacoustics" />
+
+    <ImageButton
+        android:id="@+id/whistlesacousticsImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/popcornacousticsImageButton"
+        android:layout_below="@+id/popcornacousticsImageButton"
+        android:layout_marginTop="20dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClickWhistlesAcousticsImageButton"
+        app:srcCompat="@drawable/whistlesacoustics" />
+
+    <!--  ***********   Save and Reset Buttons  ************************************************  -->
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:onClick="onClickSaveButton"
+        android:text="@string/action_save" />
+
+    <ImageButton
+        android:id="@+id/resetImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/smalldolphinImageButton"
+        android:onClick="onClickReset"
+        app:srcCompat="@drawable/reset" />
+
+
+<!--  **  Group and Species Image Buttons ** -->
+    <Button
+        android:id="@+id/groupButton"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:layout_alignBottom="@id/polarMapImageView"
+        android:layout_alignParentLeft="true"
+        android:fontFamily="sans-serif-condensed"
+        android:onClick="onClickGroupButton"
+        android:text="G ?"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+    <ImageButton
+        android:id="@+id/iniaspeciesImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@id/polarMapImageView"
+        android:onClick="onClickIniaSpeciesImageButton"
+        app:srcCompat="@drawable/iniaspecies" />
+
+    <ImageButton
+        android:id="@+id/iniasotaliaspeciesImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:layout_alignTop="@id/polarMapImageView"
+        android:layout_alignParentEnd="true"
+        android:onClick="onClickIniaSotaliaSpeciesImageButton"
+        app:srcCompat="@drawable/iniasotaliaspecies" />
+
+    <ImageButton
+        android:id="@+id/sotaliaspeciesImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/polarMapImageView"
+        android:onClick="onClickSotaliaSpeciesImageButton"
+        app:srcCompat="@drawable/sotaliaspecies" />
+
+    <!--  **  Group and Species Image Buttons ** -->
+
+</RelativeLayout>
