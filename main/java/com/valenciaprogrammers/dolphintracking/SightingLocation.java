@@ -125,10 +125,11 @@ public class SightingLocation {
     @Override
     public String toString() {
         String result = "Spotted " + this.distance.getDistanceFromBase() + " meters from boat "
-                + " at " + (int)this.mapLocation.getArcLocation()
+                + " At " + (int)this.mapLocation.getArcLocation()
                 + " (" + this.mapLocation.getLocationHeading()
-                + ") moving " + (int) this.directionMoving.getArcLocation()
-                + " (" + this.directionMoving.getLocationHeading() + ")";
+                + ") ";
+        result += (this.directionMoving.getArcLocation()==0)?"":("moving " + (int) this.directionMoving.getArcLocation()
+                + " (" + this.directionMoving.getLocationHeading() + ")");
         if (baseHeading == -1) {
             result += "\n";
         }else {

@@ -63,12 +63,12 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
     private boolean haveAskedPermission = false;
     private boolean canWrite = false;
     public static boolean saveAudio = false;
-    public static boolean isAvailableGPS = false;
-    public static boolean canRecordAudio = false;
+    private boolean isAvailableGPS = false;
+    private boolean canRecordAudio = false;
     private CountDownTimer cdt;
 
-    private String drawablePath = "com.valenciaprogrammers.dolphintracking:drawable/";
-    private String idPath = "com.valenciaprogrammers.dolphintracking:id/";
+    private String drawablePath;
+    private String idPath;
     private int mapResource;
 
     private PointF imageCenterPoint;
@@ -135,6 +135,8 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
 
 //      bind to main activity
         setContentView(R.layout.activity_main_tracking);
+        drawablePath = getResources().getString(R.string.drawablePath);
+        idPath = getResources().getString(R.string.idPath);
 
 //      create the toolbar and set up actionbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -284,8 +286,10 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
                 if (ev.getAction() == MotionEvent.ACTION_UP) {
                     touchUp = new PointF(ev.getX(), ev.getY());
                     System.out.println("/n  Up    : (X,Y)   ( " + touchUp.x + "," + touchUp.y + " )");
+                    double touchMoved = Math.sqrt(Math.abs(Math.pow(touchUp.x - touchDown.x, 2) + Math.pow(touchUp.y - touchDown.y, 2)));
+                    System.out.println("/n  Touched moved "+touchMoved);
                     MapLocation directionLocation = new MapLocation();
-                    if (touchDown != touchUp) {
+                    if (touchMoved > 30 * density) {
                         directionLocation = new MapLocation(touchDown, touchUp);
                         touchUpDraw = adjustDrawPoint(touchUp);
                         drawAMark(touchDownDraw, touchUpDraw);
@@ -484,12 +488,11 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
         saveOnReturn = true;
         if (dolphinSighting.getSightingLocation().getDistance().getDistanceFromBase() == 0) {
             Log.d("NO SAVE", "NO data to save");
-//            displayErrorMessage(MESSAGE_TYPE.NEED_LOCATION);
             msg.displayErrorMessage(Messages.TYPE.NEED_LOCATION);
         } else {
             if (saveDolphinSighting()) {
                 saveOnReturn = false;
-                if (isAvailableGPS) {
+                if (isAvailableGPS & gpsHelper != null) {
                     gpsHelper.stopGPS();  // Turn the GPS off
                 }
             }
@@ -503,7 +506,7 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
             dolphinSighting.setDolphinGroupCode(groupCode);
             dolphinSighting.setDolphinSocialGrouping(socialGrouping);
         }
-        if (isAvailableGPS) {
+        if (isAvailableGPS & gpsHelper != null) {
             gpsInfo = gpsHelper.getLatestCoordinates();
             sightingLocation.setBaseGPSLatitude(gpsInfo[0]);
             sightingLocation.setBaseGPSLongitude(gpsInfo[1]);
@@ -535,7 +538,7 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
                 drawAMark(touchDownDraw, touchUpDraw);
                 displayMessage(dolphinSighting.shortToString());
             }
-            Toast.makeText(this, "Dolphin Sighting Data Saved!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Dolphin Sighting Data Saved!", Toast.LENGTH_SHORT).show();
             return true;
         }
     }
@@ -744,8 +747,9 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
     //  export data to local csv file
     private void Export() {
         wrt = new CSVWriter(this);
-        wrt.WriteCSVFile();
-        Toast.makeText(this, "Data Exported to CSV File!", Toast.LENGTH_LONG).show();
+        if(wrt.WriteCSVFile()!= null) {
+            Toast.makeText(this, "Data Exported to CSV File!", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void SendEmail() {

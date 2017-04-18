@@ -108,7 +108,7 @@ public class AdditionalDataActivity extends AppCompatActivity {
         // if this sighting is part of a group put a message in each heading
         String sightingText = isGrouping ? getResources().getString(R.string.group_sighting_message) : "";
         headingTextView = (TextView) findViewById(R.id.behaviorTextView);
-        headingTextView.setText(getResources().getString(R.string.heading_behavior) + sightingText);
+        headingTextView.setText(getResources().getString(R.string.heading_behavior));
         headingTextView = (TextView) findViewById(R.id.socialGroupingTextView);
         headingTextView.setText(getResources().getString(R.string.heading_grouping) + sightingText);
 
