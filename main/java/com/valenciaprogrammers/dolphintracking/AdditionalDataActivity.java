@@ -1,16 +1,16 @@
 package com.valenciaprogrammers.dolphintracking;
 
 import android.Manifest;
-import android.support.v4.content.ContextCompat;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,8 +21,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
-import android.content.Context;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,30 +28,16 @@ import java.io.IOException;
 /**
  * Created by Isabel Tomaszewski on 3/11/17.  GUI and data capture logic
  * <p>
- * Brannon Martin - added audio recording and csv writer logic
+ * Brannon Martin - added audio recording logic
  */
 
 public class AdditionalDataActivity extends AppCompatActivity {
 
-    private String drawablePath = "com.valenciaprogrammers.dolphintracking:drawable/";
-    private String idPath = "com.valenciaprogrammers.dolphintracking:id/";
-
-    private TextView headingTextView;
-    private ImageButton imageButton;
-    private EditText additionalObservationEditText;
-    private boolean saveOnReturn;
     String behavior = "";
     String socialGrouping = "";
     String additionalObservation = "";
     boolean isGrouping;
-    private Messages msg = null;
-
     boolean canRecordAudio = false;
-    private boolean hasRecorded = false;
-    private Button recordButton;
-    private Button playButton;
-    private boolean isRecording = false;
-    private boolean isPlaying = false;
     String audioFileName = null;
     String parentFolderName = "/Dolphin Tracker";
     String subFolderName = "/Audio Files";
@@ -62,29 +46,40 @@ public class AdditionalDataActivity extends AppCompatActivity {
     String fullPath;
     MediaPlayer mediaPlayer;
     MediaRecorder mediaRecorder;
-
     // arrays to manage button images
     int[] imageIds = new int[22];          // resource ids of images for the unselected button
     int[] buttonIds = new int[22];         // resource ids of ImageButtons
     int[] selectedIds = new int[22];       // resource ids of images for the selected button
-
     // array of prefix names for images and ImageButtons
     String[] prefixes = {"cooperation", "fishing", "splashing", "jumping", "fighting",
             "sexual", "tossing", "milling", "traveling", "object",
             "number1", "number2", "number3", "number4", "number5", "number6", "number7",
             "mothercalf", "babysitting", "multipleyoung", "adults", "mixedgroup"};
-
     // text for the dolphin attribute saved in the database record
     String[] dolphinAttributes = {"Cooperation", "Fishing", "Splashing", "Jumping",
             "Fighting", "Sexual", "Tossing", "Milling", "Traveling", "Object",
             "Num 1", "Num 2", "Num 3", "Num 4", "Num 5", "Num 6", "Num 7",
             "Mother/Calf ", "Babysitting", "MultipleYoung", "Adults", "MixedGrouping"};
+    private String drawablePath;
+    private String idPath;
+    private TextView headingTextView;
+    private ImageButton imageButton;
+    private EditText additionalObservationEditText;
+    private boolean saveOnReturn;
+    private Messages msg = null;
+    private boolean hasRecorded = false;
+    private Button recordButton;
+    private Button playButton;
+    private boolean isRecording = false;
+    private boolean isPlaying = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_additional_data);
+        drawablePath = getResources().getString(R.string.drawablePath);
+        idPath = getResources().getString(R.string.idPath);
 
         Toolbar toolbar =
                 (Toolbar) findViewById(R.id.additionalToolbar);
@@ -155,22 +150,18 @@ public class AdditionalDataActivity extends AppCompatActivity {
     }
 
     //  method to test if image is to be set to selected state or reset to unselected
-//  start of resource id for group of attributes, ie. size, color, energy, swimming, acoustics
-//  end of resource id for group of attributes, ie. size, color, energy, swimming, acoustics
+//  start and end of resource id for group of attributes, ie. behavior, social groups
 //  id of attributes to select/unselect
 //  text for the attribute to select/unselect
 //
     public String manageButtonImage(int idStart, int idEnd, int idAttribute, String attribute) {
         String attributeToSet = "";
-        Log.d("Manage Buttons", "******** Start " + idStart + "  end " + idEnd + "  Attribute " + idAttribute + "  " + attribute);
         manageResetButton(idStart, idEnd, idAttribute);
         if (attribute.equals(dolphinAttributes[idAttribute])) {
             changeImageOnButton(buttonIds[idAttribute], imageIds[idAttribute]);
-            Log.d("Manage Buttons", "******** Unselected image  " + attribute);
         } else {
             attributeToSet = dolphinAttributes[idAttribute];
             changeImageOnButton(buttonIds[idAttribute], selectedIds[idAttribute]);
-            Log.d("Manage Buttons", "******** Selected image  " + idAttribute);
         }
         return attributeToSet;
     }
@@ -185,16 +176,14 @@ public class AdditionalDataActivity extends AppCompatActivity {
         imageButton.setImageResource(idResource);
     }
 
-    //
-//  reset all images to unselected image
+    //  reset all images to unselected image
 //  id to skip is set to -1 so no id is skipped
 //
     public void resetAllImage() {
         manageResetButton(0, 21, -1);
     }
 
-    //
-//  method to reset the requested range of buttons
+    //  method to reset the requested range of buttons
 //  start of resources to reset to unselected image
 //  end of resources to reset to unselected image
 //  id to skip if needed
@@ -207,12 +196,10 @@ public class AdditionalDataActivity extends AppCompatActivity {
         }
     }
 
-    //String [] prefixes = {"cooperation", "fishing", "splashing", "jumping",
+    //    Behaviors Button clicks :
+//            "cooperation", "fishing", "splashing", "jumping",
 //            "fighting", "sexual","tossing", "milling","traveling","object",
-//                    "number1", "number2", "number3", "number4", "number5", "number6", "number7",
-//                    "mothercalf", "babysitting", "multipleyoung", "adults","mixedgroup"};
-
-    //    dolphin behavior button clicks
+//            "number1", "number2", "number3", "number4", "number5", "number6", "number7"
 //
     public void onClickCooperationBehavior(View v) {
         behavior = manageButtonImage(0, 16, 0, behavior);
@@ -282,7 +269,8 @@ public class AdditionalDataActivity extends AppCompatActivity {
         behavior = manageButtonImage(0, 16, 16, behavior);
     }
 
-    //    dolphin social grouping button clicks
+    //    Social Groupings Button Clicks :
+//          "mothercalf", "babysitting", "multipleyoung", "adults","mixedgroup"};
 //
     public void onClickMotherCalfGrouping(View v) {
         socialGrouping = manageButtonImage(17, 21, 17, socialGrouping);
@@ -304,21 +292,22 @@ public class AdditionalDataActivity extends AppCompatActivity {
         socialGrouping = manageButtonImage(17, 21, 21, socialGrouping);
     }
 
+    //  method to
     private void returnData() {
         if (isRecording) {
             mediaRecorder.stop();
             mediaRecorder.release();
         }
-
         if (isPlaying) {
             mediaPlayer.stop();
             mediaPlayer.release();
         }
-
         String audio = null;
-        if (audioFileName != null) {
-            String[] temp = audioFileName.split("/");  // takes the "/" off the file name just to make it look cleaner in the CSV file if it has it
-            audio = (temp.length > 1) ? temp[1] : temp[0];  // If this is the first time coming into this screen, temp length will be 2 because of cutting the "/" off the end.  Any time after that it will not have the / to take off
+        if (hasRecorded) {
+            if (audioFileName != null) {
+                String[] temp = audioFileName.split("/");  // takes the "/" off the file name just to make it look cleaner in the CSV file if it has it
+                audio = (temp.length > 1) ? temp[1] : temp[0];  // If this is the first time coming into this screen, temp length will be 2 because of cutting the "/" off the end.  Any time after that it will not have the / to take off
+            }
         }
         additionalObservationEditText = (EditText) findViewById(R.id.editText);
         additionalObservation = additionalObservationEditText.getText().toString();
@@ -331,11 +320,10 @@ public class AdditionalDataActivity extends AppCompatActivity {
 
         setResult(RESULT_OK, returnIntent);
         finish();
-
     }
 
-    // *******************************************************************************************************
-    // manage Addtional MenuItem access
+    //  *******************************************************************************************************
+//  manage Additional MenuItem access
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -343,16 +331,19 @@ public class AdditionalDataActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    //  method to perform the menu item touched
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
         switch (id) {
+            // return to the main activity, pass the data and set not to save to db on return
             case android.R.id.home:
                 saveOnReturn = false;
                 returnData();
                 return true;
 
+            // return to the main activity, pass the data and set to save to database on return
             case R.id.action_save:
                 saveOnReturn = true;
                 returnData();
@@ -396,8 +387,7 @@ public class AdditionalDataActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.toast_start_recording),
                     Toast.LENGTH_SHORT).show();
-        } else  // The person hit the "stop" button
-        {
+        } else {    // The person hit the "stop" button
             hasRecorded = true;
             isRecording = false;
             MainTrackingActivity.saveAudio = true;
@@ -409,7 +399,6 @@ public class AdditionalDataActivity extends AppCompatActivity {
                     getResources().getString(R.string.toast_end_recording),
                     Toast.LENGTH_SHORT).show();
         }
-
     }
 
     public void playAudioButtonPush(View v) {

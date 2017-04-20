@@ -2,52 +2,79 @@ package com.valenciaprogrammers.dolphintracking;
 /**
  * Created by Isabel Tomaszewski on 2/10/17.
  * Main activity to capture and save dolphin sighting data.
+ * This app was developed using Android Studio version 2.3.1
+ * Build SDK API 25: Android 7.1.1 (Nougat)
+ * <p>
  * <p>
  * Modified by Brannon Martin - added GPS, Compass and CSV writer
  */
+
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
-import android.graphics.PointF;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
-import android.graphics.Color;
-import android.graphics.Canvas;
-import android.net.Uri;
-import android.os.Environment;
-import android.os.CountDownTimer;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.content.Context;
+import android.graphics.Point;
+import android.graphics.PointF;
+import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ImageButton;
 import android.widget.Toast;
-import android.widget.Button;
-import android.support.v7.widget.Toolbar;
-import android.view.WindowManager;
-import android.location.LocationManager;
+
 import java.io.File;
 
 public class MainTrackingActivity extends AppCompatActivity implements SensorEventListener {
 
+    public static boolean saveAudio = false;
+    // Used when asking the user for permissions to write to storage
+    private static String[] PERMISSIONS_GPS = {Manifest.permission.ACCESS_FINE_LOCATION};
+    private static String[] PERMISSIONS_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+    private static String[] PERMISSIONS_AUDIO = {Manifest.permission.RECORD_AUDIO};
+    // arrays to manage button images
+    int[] imageIds = new int[21];          // resource ids of images for the unselected button
+    int[] buttonIds = new int[21];         // resource ids of ImageButtons
+    int[] selectedIds = new int[21];       // resource ids of images for the selected button
+    // array of prefix names for images and ImageButtons
+    String[] prefixes = {"small", "medium", "large", "grey", "pinkgrey", "pink",
+            "low", "medium", "high", "floating", "movingslow", "movingregular", "jumping",
+            "popcorn", "whistles", "onaxis", "bubbles", "chuff",
+            "inia", "iniasotalia", "sotalia"};
+    // button name and index of attributes set
+    int[] prefixButton = {0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5};
+    String[] buttonName = {"dolphin", "color", "energy", "activity", "acoustics", "species"};
+    // text for the dolphin attribute saved in the database record
+    String[] dolphinAttributes = {"Small", "Medium", "Large", "Grey", "Mixed", "Pink",
+            "Low", "Medium", "High", "Floating", "Slow", "Regular", "Jumping",
+            "Popcorn", "Whistles", "On-Axis", "Bubbles", "Chuff",
+            "Inia", "Inia-Sotalia", "Sotalia"};
     private ImageButton imageButton;
     private MapForm mapForm;
     private PointF touchDown;
@@ -58,19 +85,15 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
     private float density;
     private float imageXOffset;
     private float imageYOffset;
-
     private boolean isAvailableCompass = false;
     private boolean haveAskedPermission = false;
     private boolean canWrite = false;
-    public static boolean saveAudio = false;
     private boolean isAvailableGPS = false;
     private boolean canRecordAudio = false;
     private CountDownTimer cdt;
-
     private String drawablePath;
     private String idPath;
     private int mapResource;
-
     private PointF imageCenterPoint;
     private int imageEndBoundary;
     private float maxDistance;
@@ -79,7 +102,6 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
     private GpsHelper gpsHelper = null;
     private CSVWriter wrt = null;
     private Messages msg = null;
-
     private ADDatabaseHelper dbHelp;
     private ObservationEnvironment oe = null;
     private DolphinSighting dd = null;
@@ -87,42 +109,14 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
     private String groupCode = "";
     private String socialGrouping = "";
     private boolean saveOnReturn = true;
-
     private Compass compass;
     private SensorManager AccelerometerManager;
     private SensorManager MagneticSensorManager;
     private Sensor GPS;
     private Sensor accelerometer;
-
     private int baseHeading = -1;
     private double[] gpsInfo = new double[3];
     private int fromWhere = 0; // Used to tell which method is asking for write permission so the correct screen can be opened after a user gives permission
-
-    // arrays to manage button images
-    int[] imageIds = new int[21];          // resource ids of images for the unselected button
-    int[] buttonIds = new int[21];         // resource ids of ImageButtons
-    int[] selectedIds = new int[21];       // resource ids of images for the selected button
-
-    // array of prefix names for images and ImageButtons
-    String[] prefixes = {"small", "medium", "large", "grey", "pinkgrey", "pink",
-            "low", "medium", "high", "floating", "movingslow", "movingregular", "jumping",
-            "popcorn", "whistles", "onaxis", "bubbles", "chuff",
-            "inia", "iniasotalia", "sotalia"};
-
-    // button name and index of attributes set
-    int[] prefixButton = {0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5};
-    String[] buttonName = {"dolphin", "color", "energy", "activity", "acoustics", "species"};
-
-    // text for the dolphin attribute saved in the database record
-    String[] dolphinAttributes = {"Small", "Medium", "Large", "Grey", "Mixed", "Pink",
-            "Low", "Medium", "High", "Floating", "Slow", "Regular", "Jumping",
-            "Popcorn", "Whistles", "On-Axis", "Bubbles", "Chuff",
-            "Inia", "Inia-Sotalia", "Sotalia"};
-
-    // Used when asking the user for permissions to write to storage
-    private static String[] PERMISSIONS_GPS = {Manifest.permission.ACCESS_FINE_LOCATION};
-    private static String[] PERMISSIONS_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-    private static String[] PERMISSIONS_AUDIO = {Manifest.permission.RECORD_AUDIO};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,8 +213,10 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
         sightingLocation = new SightingLocation();
 
         //      Set species to Inia - most common one being observed
-        dolphinSpecies = manageAttribute(18, 20, 18, "");
-        dolphinSighting.setDolphinSpecies(dolphinSpecies);
+        if (dolphinSpecies == "") {
+            dolphinSpecies = manageAttribute(18, 20, 18, "");
+            dolphinSighting.setDolphinSpecies(dolphinSpecies);
+        }
 
         //      set group button to off - sighting is for a single dolphin, not in a group
         resetGroupCode();
@@ -266,7 +262,7 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
         // If the spot touched is beyond the boundaries of the map,  ignore it
         if ((int) ev.getY() < imageEndBoundary) {
             if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-                if(recheckGPS()){
+                if (recheckGPS()) {
                     gpsHelper.restartGPS();  // Start the GPS when the user touches the screen and the GPS is currently not running
                 }
                 touchDown = new PointF(ev.getX(), ev.getY());
@@ -287,12 +283,14 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
                     touchUp = new PointF(ev.getX(), ev.getY());
                     System.out.println("/n  Up    : (X,Y)   ( " + touchUp.x + "," + touchUp.y + " )");
                     double touchMoved = Math.sqrt(Math.abs(Math.pow(touchUp.x - touchDown.x, 2) + Math.pow(touchUp.y - touchDown.y, 2)));
-                    System.out.println("/n  Touched moved "+touchMoved);
+                    System.out.println("/n  Touched moved " + touchMoved);
                     MapLocation directionLocation = new MapLocation();
                     if (touchMoved > 30 * density) {
                         directionLocation = new MapLocation(touchDown, touchUp);
                         touchUpDraw = adjustDrawPoint(touchUp);
                         drawAMark(touchDownDraw, touchUpDraw);
+                    }else{
+                        touchUpDraw = touchDownDraw;
                     }
                     dolphinSighting.getSightingLocation().setDirectionMoving(directionLocation);
                     System.out.println("/n  Dolphin Sighting Moving ( " + sightingLocation.toString() + " )");
@@ -475,8 +473,7 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
         displayMessage(dolphinSighting.shortToString());
     }
 
-    // **********************************************************
-    //
+    //  **********************************************************
 //  save the dolphin sighting data if a distance is present
 //  reset for a new sighting
 //
@@ -622,7 +619,7 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
         imageView.setImageResource(mapResource);
     }
 
-    //  method to reset the requested range of buttons
+    //   Method to reset the requested range of buttons
 //  start of resources to reset to unselected image
 //  end of resources to reset to unselected image
 //  id to skip if needed
@@ -635,7 +632,7 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
         }
     }
 
-    //   Method to set the image for the ImageButton selected or deselected.
+    //    Method to set the image for the ImageButton selected or deselected.
 //   The input parameter integer refers to the button selected.
 //   The input parameter integer refers to the image resource.
 //
@@ -644,14 +641,14 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
         imageButton.setImageResource(idResource);
     }
 
-    //  Display the current contents of the dolphin sighting object
+    //    Display the current contents of the dolphin sighting object
 //
     public void displayMessage(String message) {
         TextView sightingTextView = (TextView) findViewById(R.id.sightingTextView);
         sightingTextView.setText(message);
     }
 
-    // toggle the grouping.  if on,  turn off;  if off, turn on.
+    //  toggle the grouping.  if on,  turn off;  if off, turn on.
     public void onClickGroupButton(View V) {
         Button groupButton = (Button) findViewById(R.id.groupButton);
         if (groupCode.length() > 0) {
@@ -665,7 +662,7 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
         }
     }
 
-    //    Reset the Group code.
+    //  Reset the Group code.
     private void resetGroupCode() {
         Button groupButton = (Button) findViewById(R.id.groupButton);
         groupCode = "";
@@ -676,8 +673,9 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
         groupButton.setTextColor(Color.WHITE);
         groupButton.setBackgroundColor(Color.BLUE);
     }
-    // *****************************************************************************
-    // manage MenuItem access
+
+    //  *************************************************************
+//  manage MenuItem access
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -702,8 +700,6 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
                 if (canWrite) {
                     Export();
                 } else {
-//                    Toast.makeText(this, "Cannot export due to write permission being denied. Please change in app settings.",
-//                            Toast.LENGTH_LONG).show();
                     msg.displayErrorMessage(Messages.TYPE.EXPORT_DENIED);
                 }
                 break;
@@ -743,45 +739,44 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
 
         return super.onOptionsItemSelected(item);
     }
+
     // ***********************************************************************************************
     //  export data to local csv file
     private void Export() {
         wrt = new CSVWriter(this);
-        if(wrt.WriteCSVFile()!= null) {
+        if (wrt.WriteCSVFile() != null) {
             Toast.makeText(this, "Data Exported to CSV File!", Toast.LENGTH_LONG).show();
         }
     }
 
+    //  create a temporary csv file to email it.
     private void SendEmail() {
         wrt = new CSVWriter(this);
         File attachment = wrt.WriteCSVFile();
 
         if (attachment != null) {
             Uri uri = Uri.fromFile(attachment);
-
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/html");
             i.putExtra(Intent.EXTRA_EMAIL, new String[]{"DolphinTrackers@gmail.com"});
             i.putExtra(Intent.EXTRA_SUBJECT, "Dolphin Tracker app CSV file");
             i.putExtra(Intent.EXTRA_TEXT, "The CSV file created on " + Time.getDate() + " at " + Time.getTime() + ".");
             i.putExtra(Intent.EXTRA_STREAM, uri);
-
             try {
                 startActivity(Intent.createChooser(i, "Send mail..."));
                 Toast.makeText(this, "CSV Data File Emailed!", Toast.LENGTH_LONG).show();
             } catch (android.content.ActivityNotFoundException ex) {
-//                Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_LONG).show();
                 msg.displayErrorMessage(Messages.TYPE.NO_EMAIL_SETUP);
             }
         }
     }
+
     // **********************************************************************************************
     // Request permission for read and write local storage and location access and audio recording
     //
     //  verify permission was granted for write to local storage
     private boolean verifyWritePermission() {
-        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);  // Checks if the permission has already been granted
-
+        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (permission != PackageManager.PERMISSION_GRANTED)  // Permission has not yet been granted
         {
             ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, 1);  // Request permission
@@ -795,7 +790,6 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
 
     private boolean verifyRecordAudioPermission() {
         int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
-
         if (permission != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, PERMISSIONS_AUDIO, 1);
             return false;
@@ -807,8 +801,7 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
         return true;
     }
 
-    private boolean verifyGpsPermission()
-    {
+    private boolean verifyGpsPermission() {
         haveAskedPermission = true;
 
         if (!checkGpsPermission())  // Permission has not yet been granted
@@ -818,42 +811,31 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
             return false;
         }
 
-        if(checkIfGpsEnabled())
-        {
+        if (checkIfGpsEnabled()) {
             isAvailableGPS = true;
             gpsHelper.restartGPS();
-        }
-
-        else
-        {
+        } else {
             Toast.makeText(this, "GPS is disabled!", Toast.LENGTH_LONG).show();
-
             isAvailableGPS = false;
             return false;
         }
-
         Log.d("verifyGpsPermission: ", String.valueOf(haveAskedPermission));
-
         return true;
     }
 
-    private boolean recheckGPS()
-    {
+    private boolean recheckGPS() {
         isAvailableGPS = checkGpsPermission() && checkIfGpsEnabled();
         return isAvailableGPS;
     }
 
-    private boolean checkGpsPermission()
-    {
+    private boolean checkGpsPermission() {
         int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);  // Checks if the permission has already been granted
         return permission == PackageManager.PERMISSION_GRANTED;
     }
 
 
-    private boolean checkIfGpsEnabled()
-    {
-        LocationManager lm = (LocationManager) getSystemService(this.LOCATION_SERVICE);
-
+    private boolean checkIfGpsEnabled() {
+        LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
         return lm.isProviderEnabled(LocationManager.GPS_PROVIDER); // Checks if GPS is enabled for the device
     }
 
@@ -955,7 +937,6 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                     }
                 });
 
@@ -976,36 +957,24 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
     @Override
     protected void onStop() {
         String path = Environment.getExternalStorageDirectory() + "/Dolphin Tracker/Audio Files/" + dolphinSighting.getDolphinAudioFileName();
-
         super.onStop();
-
         File f = new File(path);
-
         if (f.exists() && !saveAudio) {
             f.delete();  // Deletes the current audio file for the last particular entry if the user closed the app without hitting save.  Used to reduce "junk" files
         }
-
-        if(isAvailableGPS)
-        {
+        if (isAvailableGPS) {
             gpsHelper.forceStop();  // Stop the GPS
             GpsHelper.isLocked = false;
         }
-
     }
 
     private void reCheckPermissions() {
         int permission;
-
         permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
         canWrite = permission == PackageManager.PERMISSION_GRANTED;
-
         permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
-
         canRecordAudio = permission == PackageManager.PERMISSION_GRANTED;
-
         permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);  // Checks if the permission has already been granted
-
         if (permission == PackageManager.PERMISSION_GRANTED && checkIfGpsEnabled())  // Permission has not yet been granted
         {
             isAvailableGPS = true;

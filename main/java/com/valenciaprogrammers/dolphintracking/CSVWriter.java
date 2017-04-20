@@ -1,9 +1,9 @@
 package com.valenciaprogrammers.dolphintracking;
+
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Environment;
-import android.widget.Toast;
 import android.util.Log;
 
 import java.io.File;
@@ -15,10 +15,10 @@ import java.io.OutputStreamWriter;
 
 /**
  * Created by Brannon Martin on 2/18/2017.
+ * This class is used to create a CSV file from the database data
  */
 
-public class CSVWriter extends Activity
-{
+public class CSVWriter extends Activity {
     Context context; //  Needs the context from the MainActivity
     String parentFolderName = "/Dolphin Tracker";
     String subFolderName = "/CSV Files";
@@ -27,24 +27,20 @@ public class CSVWriter extends Activity
     private String fileName = "DolphinCSV";
     private Messages msg = null;
 
-    public CSVWriter(Context context)
-    {
+    public CSVWriter(Context context) {
         this.context = context;
         msg = new Messages(this.context);
     }
 
-    private String CreateCSVString()
-    {
+    private String CreateCSVString() {
         String result = "";
         Cursor cur = GetDatabaseInfo();
         String[] columns = cur.getColumnNames();
 
         //  Split each DateTime column into separate date and time columns
-        for(String s : columns)
-        {
-            Log.d("Date Time", "*****  "+s);
-            switch (s)
-            {
+        for (String s : columns) {
+            Log.d("Date Time", "*****  " + s);
+            switch (s) {
                 case DolphinContract.DolphinTable.ENTERED_DATE_TIME:
                     result += "Entered_Date,Entered_Time,";
                     break;
@@ -68,15 +64,12 @@ public class CSVWriter extends Activity
 
         result += "\n";  //  Add a line after the column headers
 
-        while (cur.moveToNext())
-        {
-            int count  = cur.getColumnCount();
+        while (cur.moveToNext()) {
+            int count = cur.getColumnCount();
 
             //  Take each DateTime string and split it
-            for(int i = 0; i < count; i++)
-            {
-                switch (i)
-                {
+            for (int i = 0; i < count; i++) {
+                switch (i) {
                     case DolphinContract.ENTERED_DATE_TIME_INDEX:  //  This is Entered_DateTime
                         result += Time.getDateFromDateTime(cur.getString(i)) + ",";
                         result += Time.getTimeFromDateTime(cur.getString(i)) + ",";
@@ -97,7 +90,8 @@ public class CSVWriter extends Activity
                         result += Time.getTimeFromDateTime(cur.getString(i)) + ",";
                         break;
 
-                    default: result += cur.getString(i) + ",";  //  All columns that are not date/time
+                    default:
+                        result += cur.getString(i) + ",";  //  All columns that are not date/time
                         break;
                 }
             }
@@ -107,36 +101,28 @@ public class CSVWriter extends Activity
         return result;
     }
 
-    private Cursor GetDatabaseInfo()
-    {
+    private Cursor GetDatabaseInfo() {
         //  Gets all the info out of the database
         ADDatabaseHelper help = new ADDatabaseHelper(context);
         return help.readAllDataFromDB();
     }
 
-    public File WriteCSVFile()
-    {
+    public File WriteCSVFile() {
         File file = GetCSVFile();
 
         String csvInfo = CreateCSVString();
-        Log.d("Record to write", "****   "+csvInfo);
-        try
-        {
-            FileOutputStream fos = new FileOutputStream(file,false);
+        Log.d("Record to write", "****   " + csvInfo);
+        try {
+            FileOutputStream fos = new FileOutputStream(file, false);
             OutputStreamWriter os = new OutputStreamWriter(fos);
             os.write(csvInfo);
             os.close();
-        }
-
-        catch (FileNotFoundException e)
-        {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
 //            Toast.makeText(context, "Error creating file", Toast.LENGTH_LONG).show();
             msg.displayErrorMessage(Messages.TYPE.NO_FILE);
             return null;
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
 //            Toast.makeText(context, "Error creating file", Toast.LENGTH_LONG).show();
             msg.displayErrorMessage(Messages.TYPE.WRITE_ERROR);
@@ -145,11 +131,9 @@ public class CSVWriter extends Activity
         return file;
     }
 
-    private File GetCSVFile()
-    {
+    private File GetCSVFile() {
         File newFile = new File(Environment.getExternalStorageDirectory(), folders);
-        if(!newFile.exists())
-        {
+        if (!newFile.exists()) {
             newFile.mkdirs();
         }
 

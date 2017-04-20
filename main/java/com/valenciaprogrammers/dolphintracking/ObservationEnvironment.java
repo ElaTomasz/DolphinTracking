@@ -1,19 +1,20 @@
 package com.valenciaprogrammers.dolphintracking;
 
-import com.valenciaprogrammers.dolphintracking.DolphinSighting;
-
 import java.util.ArrayList;
 
 
 /**
  * Created by Isabel Tomaszewski on 2/10/17.
- *
+ * <p>
  * This class is for the info on where the observations are taking place, but not the actual dolphin observations.
- * This is what would be considered the info on a group
+ * At this release,  this is not implemented.
+ * The intent was to have a screen that would allow the user to enter information about
+ * the location where the sightings are being recorded.
+ * This information would be linked to each dolphin sighting data saved by inserting the id
+ * of the environment record to each entry saved.
  */
 
-public class ObservationEnvironment
-{
+public class ObservationEnvironment {
     private static ArrayList<ObservationEnvironment> allDolphinData;  // List of all the info in the database
 
     private long id;

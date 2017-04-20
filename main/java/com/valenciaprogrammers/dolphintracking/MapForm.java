@@ -2,6 +2,7 @@ package com.valenciaprogrammers.dolphintracking;
 
 /**
  * Created by Isabel Tomaszewski on 2/10/17.
+ * Class to describe the circles in the polar map
  */
 
 public class MapForm {
@@ -20,7 +21,7 @@ public class MapForm {
         this.numberOfCircles = numberOfCircles;
     }
 
-    public MapForm(){
+    public MapForm() {
         metersDistancePerCircle = 10.f;
         equiDistanceInPoints = 40.0f;
         firstCircleDistanceInPoints = 0.0f;

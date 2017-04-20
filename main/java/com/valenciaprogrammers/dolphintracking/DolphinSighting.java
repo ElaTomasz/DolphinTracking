@@ -2,8 +2,8 @@ package com.valenciaprogrammers.dolphintracking;
 
 /**
  * Created by Isabel Tomaszewski on 2/16/17.
- *
- * Class for all the data of dalphin sighting data
+ * <p>
+ * Class for all the data of dolphin sighting data
  */
 
 public class DolphinSighting {
@@ -24,7 +24,7 @@ public class DolphinSighting {
     private SightingLocation sightingLocation;
 
 
-    public DolphinSighting(){
+    public DolphinSighting() {
         this.sighting_id = -1;
         this.dateTimeEntered = Time.getFullDateTime();
         this.dateTimeOfObservation = Time.getFullDateTime();
@@ -161,23 +161,23 @@ public class DolphinSighting {
         this.dolphinAudioFileName = dolphinAudioFileName;
     }
 
-    private String addSlash(String text){
+    private String addSlash(String text) {
         return (text.length() == 0) ? "" : " / ";
     }
 
     public String shortToString() {
         String line1, line2, line4, result;
         line1 = dolphinSpecies;
-        line1 += (dolphinSize.length() == 0) ? "" : (addSlash(line1)+"Size: "+ dolphinSize);
-        line1 += (dolphinColor.length() == 0) ? "" : (addSlash(line1)+"Color: "+ dolphinColor);
-        line1 += (dolphinEnergy.length() == 0) ? "" : (addSlash(line1)+"Energy: "+ dolphinEnergy);
-        line1 += (dolphinSwimmingActivity.length() == 0) ? "" : (addSlash(line1)+"Swimming: " + dolphinSwimmingActivity);
-        line2 = (dolphinAcoustics.length() == 0) ? "" : ("Acoustics: "+ dolphinAcoustics);
-        line2 += (dolphinBehavior.length() == 0) ? "" : (addSlash(line1)+"Behavior: "+ dolphinBehavior);
-        line2 += (dolphinSocialGrouping.length() == 0) ? "" : (addSlash(line2)+"Social Grouping: "+ dolphinSocialGrouping);
-        line2 += (dolphinGroupCode.length() == 0) ? "" : (addSlash(line2)+"Group Code: "+ dolphinGroupCode);
-        line4 = dateTimeOfObservation+ " " + sightingLocation.toString();
-        result = line1 + (line2.length() == 0 ? "" : "\n"+line2)+(line4.length() == 0 ? "" : "\n"+line4);
+        line1 += (dolphinSize.length() == 0) ? "" : (addSlash(line1) + "Size: " + dolphinSize);
+        line1 += (dolphinColor.length() == 0) ? "" : (addSlash(line1) + "Color: " + dolphinColor);
+        line1 += (dolphinEnergy.length() == 0) ? "" : (addSlash(line1) + "Energy: " + dolphinEnergy);
+        line1 += (dolphinSwimmingActivity.length() == 0) ? "" : (addSlash(line1) + "Swimming: " + dolphinSwimmingActivity);
+        line2 = (dolphinAcoustics.length() == 0) ? "" : ("Acoustics: " + dolphinAcoustics);
+        line2 += (dolphinBehavior.length() == 0) ? "" : (addSlash(line1) + "Behavior: " + dolphinBehavior);
+        line2 += (dolphinSocialGrouping.length() == 0) ? "" : (addSlash(line2) + "Social Grouping: " + dolphinSocialGrouping);
+        line2 += (dolphinGroupCode.length() == 0) ? "" : (addSlash(line2) + "Group Code: " + dolphinGroupCode);
+        line4 = dateTimeOfObservation + " " + sightingLocation.toString();
+        result = line1 + (line2.length() == 0 ? "" : "\n" + line2) + (line4.length() == 0 ? "" : "\n" + line4);
         return result;
     }
 
@@ -186,8 +186,8 @@ public class DolphinSighting {
         String line12, line3, result;
         line12 = shortToString();
         line3 = (dolphinAdditionalObservation.length() == 0) ? "" : ("Additional Observation: "
-                        + dolphinAdditionalObservation.substring(0,Math.min(120,dolphinAdditionalObservation.length())));
-        result = line12 + (line3.length() == 0 ? "" : "\n"+line3);
+                + dolphinAdditionalObservation.substring(0, Math.min(120, dolphinAdditionalObservation.length())));
+        result = line12 + (line3.length() == 0 ? "" : "\n" + line3);
         return result;
     }
 }

@@ -4,14 +4,13 @@ import android.provider.BaseColumns;
 
 /**
  * Created by Brannon Martin on 2/8/2017.
- *
+ * <p>
  * The purpose of the contract class is to define the constants of the database.  No methods go here.
- *
+ * <p>
  * There is one class created per table to define the constants in each table, while the constants for the database are defined in the outer class
  */
 
-public final class DolphinContract
-{
+public final class DolphinContract {
     public static final String DB_NAME = "DolphinData.SQLite";
     public static final int DB_VERSION = 1;
 
@@ -52,8 +51,7 @@ public final class DolphinContract
     public static final int END_GPS_LATITUDE_INDEX = 33;
     public static final int END_GPS_LONGITUDE_INDEX = 34;
 
-    public static class ObservationTable implements BaseColumns
-    {
+    public static class ObservationTable implements BaseColumns {
         public static final String OBSERVATION_TABLE_NAME = "ObservationTable";
         public static final String OBSERVATION_TABLE_ID = "Observation_ID";
         public static final String LOCATION_NAME = "Location_Name";
@@ -67,28 +65,27 @@ public final class DolphinContract
         public static final String END_GPS_LATITUDE = "GPS_End_Latitude";
         public static final String END_GPS_LONGITUDE = "GPS_End_Longitude";
 
-        public static final String sqlObservationDropTableStatement = "DROP TABLE "+ OBSERVATION_TABLE_NAME+";";
+        public static final String sqlObservationDropTableStatement = "DROP TABLE " + OBSERVATION_TABLE_NAME + ";";
 
         public static final String sqlObservationStatement =
                 "CREATE TABLE IF NOT EXISTS "
-                + OBSERVATION_TABLE_NAME + " ("
-                + OBSERVATION_TABLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-                + LOCATION_NAME + " TEXT,"
-                + WEATHER + " TEXT,"
-                + START_DATE_TIME + " TEXT,"
-                + END_DATE_TIME + " TEXT,"
-                + WATER_DEPTH + " REAL,"
-                + WATER_TEMPERATURE + " REAL,"
-                + START_GPS_LATITUDE + " TEXT,"
-                + START_GPS_LONGITUDE + " TEXT,"
-                + END_GPS_LATITUDE + " TEXT,"
-                + END_GPS_LONGITUDE + " TEXT"
-                + ")";
+                        + OBSERVATION_TABLE_NAME + " ("
+                        + OBSERVATION_TABLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                        + LOCATION_NAME + " TEXT,"
+                        + WEATHER + " TEXT,"
+                        + START_DATE_TIME + " TEXT,"
+                        + END_DATE_TIME + " TEXT,"
+                        + WATER_DEPTH + " REAL,"
+                        + WATER_TEMPERATURE + " REAL,"
+                        + START_GPS_LATITUDE + " TEXT,"
+                        + START_GPS_LONGITUDE + " TEXT,"
+                        + END_GPS_LATITUDE + " TEXT,"
+                        + END_GPS_LONGITUDE + " TEXT"
+                        + ")";
     }
 
 
-    public static class DolphinTable implements BaseColumns
-    {
+    public static class DolphinTable implements BaseColumns {
         public static final String DOLPHIN_TABLE_NAME = "DolphinTable";
         public static final String DOLPHIN_TABLE_ID = "Dolphin_ID";
         public static final String OBSERVED_DATE_TIME = "Observed_DateTime";
@@ -116,7 +113,7 @@ public final class DolphinContract
         public static final String AUDIO_FILE_NAME = "Audio_File_Name";
         public static final String OBSERVATION_LOCATION_ID = "Observation_Location_ID";
 
-        public static final String sqlDolphinDropTableStatement = "DROP TABLE "+ DOLPHIN_TABLE_NAME+";";
+        public static final String sqlDolphinDropTableStatement = "DROP TABLE " + DOLPHIN_TABLE_NAME + ";";
 
         public static final String sqlDolphinStatement =
                 "CREATE TABLE IF NOT EXISTS " + DOLPHIN_TABLE_NAME

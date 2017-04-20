@@ -8,15 +8,14 @@ import android.util.Log;
 
 /**
  * Created by Isabel Tomaszewski on 4/14/17.
+ * Class to display the message for the TYPE passed
+ * The text for each type is defined in res/values/strings.xml
  */
 
-public class Messages extends Activity{
-    public enum TYPE {NEED_LOCATION, NO_EMAIL_SETUP, SAVE_ERROR, EXPORT_DENIED,
-                      NO_FILE, WRITE_ERROR, POOR_GPS, GPS_FAILED, AUDIO_DENIED}
-
+public class Messages extends Activity {
     private Context context;
-    public Messages(Context c)
-    {
+
+    public Messages(Context c) {
         this.context = c;
     }
 
@@ -83,6 +82,11 @@ public class Messages extends Activity{
                         dialog.cancel();
                     }
                 });
+    }
+
+    public enum TYPE {
+        NEED_LOCATION, NO_EMAIL_SETUP, SAVE_ERROR, EXPORT_DENIED,
+        NO_FILE, WRITE_ERROR, POOR_GPS, GPS_FAILED, AUDIO_DENIED
     }
 
 }

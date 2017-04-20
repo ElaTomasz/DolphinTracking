@@ -3,7 +3,7 @@ package com.valenciaprogrammers.dolphintracking;
 /*
     Created by Brannon Martin
 
-    The purpose of this class is to interact with the database.  This class does not do sort any information, that is done in other classes.
+    The purpose of this class is to interact with the database.  This class does not sort any information, that is done in other classes.
     This class simply handles the select, insert, delete, and update commands with the tables in the database.
  */
 
@@ -16,18 +16,17 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
-public class ADDatabaseHelper extends SQLiteOpenHelper
-{
+public class ADDatabaseHelper extends SQLiteOpenHelper {
 
     private SQLiteDatabase dolphinDB = null;
     private Context context;
 
-    public ADDatabaseHelper(Context context)
-    {
+
+    public ADDatabaseHelper(Context context) {
         super(context, DolphinContract.DB_NAME, null, DolphinContract.DB_VERSION);
-        Log.d("Debug","Enter databasehelper");
+        Log.d("Debug", "Enter databasehelper");
         dolphinDB = this.getWritableDatabase();  // This line may get deleted later.  This is just to create a database on startup for now
-        Log.d("database info","**** "+dolphinDB.toString());
+        Log.d("database info", "**** " + dolphinDB.toString());
         this.context = context;
         this.onCreate(dolphinDB);
     }
@@ -35,8 +34,7 @@ public class ADDatabaseHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)  // Creates the database with the tables if it does not already exist
     {
-        Log.d("Debug","Enter on create");
-
+        Log.d("Debug", "Enter on create");
         db.execSQL(DolphinContract.ObservationTable.sqlObservationStatement);
         db.execSQL(DolphinContract.DolphinTable.sqlDolphinStatement);
         Log.d("Success", "Tables created");
@@ -48,6 +46,8 @@ public class ADDatabaseHelper extends SQLiteOpenHelper
 
     }
 
+    //  The cursor joins the dolphin sighting data with the environmental data.
+//
     public Cursor readAllDataFromDB() // This method will read all the info from the Dolphin Table and return the cursor object
     {
         String tableSelection = DolphinContract.DolphinTable.DOLPHIN_TABLE_NAME + " LEFT OUTER JOIN " + DolphinContract.ObservationTable.OBSERVATION_TABLE_NAME
@@ -96,18 +96,19 @@ public class ADDatabaseHelper extends SQLiteOpenHelper
         // Used to sort the entries by the date/time they were saved starting with the newest at the top.  This can be changed later if need be
         String sortOrder = DolphinContract.DolphinTable.OBSERVED_DATE_TIME + " DESC";
 
-        Cursor dolphinCursor = dolphinDB.query(tableSelection, projection, null, null, null, null,sortOrder);
+        Cursor dolphinCursor = dolphinDB.query(tableSelection, projection, null, null, null, null, sortOrder);
 
         return dolphinCursor;
     }
 
+    //  method to save the dolphin sighting data
+//
     public long SaveDolphinData(DolphinSighting dd) // This method adds a DolphinData object to the database and returns the ID that is auto created for that entry
     {
         long id = -1;
         assert dd != null;  // app will crash here if null object is passed
 
-        try
-        {
+        try {
             ContentValues cv = new ContentValues();
             cv.put(DolphinContract.DolphinTable.ENTERED_DATE_TIME, dd.getDateTimeEntered());
             cv.put(DolphinContract.DolphinTable.OBSERVED_DATE_TIME, dd.getDateTimeOfObservation());
@@ -132,31 +133,25 @@ public class ADDatabaseHelper extends SQLiteOpenHelper
             cv.put(DolphinContract.DolphinTable.DOLPHIN_GROUP_CODE, dd.getDolphinGroupCode());
             cv.put(DolphinContract.DolphinTable.ADDITIONAL_BEHAVIOR, dd.getDolphinAdditionalObservation());
             cv.put(DolphinContract.DolphinTable.AUDIO_FILE_NAME, dd.getDolphinAudioFileName());
-            cv.put(DolphinContract.DolphinTable.OBSERVATION_LOCATION_ID,0);
-            Log.d("Write to DB","*********************   Inserting data");
+            cv.put(DolphinContract.DolphinTable.OBSERVATION_LOCATION_ID, 0);
+            Log.d("Write to DB", "*********************   Inserting data");
             id = dolphinDB.insert(DolphinContract.DolphinTable.DOLPHIN_TABLE_NAME, null, cv);
-            Log.d("Write to DB","*********************   Inserting data.   Record id "+id);
-        }
-
-        catch (SQLiteException e)
-        {
+            Log.d("Write to DB", "*********************   Inserting data.   Record id " + id);
+        } catch (SQLiteException e) {
             Log.d("Error Encountered! ", "*******   Error writing to DolphinData table \n" + e.toString());
             return -1;
-        }
-
-        finally
-        {
+        } finally {
             return id;
         }
     }
 
-    public long SaveObservationEnvironment(ObservationEnvironment oe)  // This method adds an ObservationEnvironment object to the database and returns the ID
-    {
+    //  This method adds an ObservationEnvironment object to the database and returns the ID
+//
+    public long SaveObservationEnvironment(ObservationEnvironment oe) {
         long id = -1;
         assert oe != null;
 
-        try
-        {
+        try {
             ContentValues cv = new ContentValues();
             cv.put(DolphinContract.ObservationTable.LOCATION_NAME, oe.getLocationName());
             cv.put(DolphinContract.ObservationTable.WEATHER, oe.getWeather());
@@ -170,22 +165,17 @@ public class ADDatabaseHelper extends SQLiteOpenHelper
             cv.put(DolphinContract.ObservationTable.WATER_DEPTH, oe.getWaterTemperature());
 
             id = dolphinDB.insert(DolphinContract.ObservationTable.OBSERVATION_TABLE_NAME, null, cv);
-        }
-
-        catch (SQLiteException e)
-        {
+        } catch (SQLiteException e) {
             Log.d("Error! ", e.toString());
-        }
-
-        finally
-        {
+        } finally {
             //     dolphinDB.close();
             return id;
         }
     }
 
-    public void DeleteAllInfo()
-    {
+    //  Method to delete all the data by dropping the tables and recreating them.
+//
+    public void DeleteAllInfo() {
         dolphinDB.execSQL(DolphinContract.ObservationTable.sqlObservationDropTableStatement);
         dolphinDB.execSQL(DolphinContract.ObservationTable.sqlObservationStatement);
 

@@ -1,14 +1,10 @@
 package com.valenciaprogrammers.dolphintracking;
 
-import android.graphics.Point;
-import java.text.DecimalFormat;
-
-
 /**
  * Created by Isabel Tomaszewski on 2/10/17.
- *
+ * <p>
  * Class for the sighting location,  ie.   distance from base, location from base and
- *                                         direction moving
+ * direction moving
  */
 
 public class SightingLocation {
@@ -125,14 +121,14 @@ public class SightingLocation {
     @Override
     public String toString() {
         String result = "Spotted " + this.distance.getDistanceFromBase() + " meters from boat "
-                + " At " + (int)this.mapLocation.getArcLocation()
+                + " At " + (int) this.mapLocation.getArcLocation()
                 + " (" + this.mapLocation.getLocationHeading()
                 + ") ";
-        result += (this.directionMoving.getArcLocation()==0)?"":("moving " + (int) this.directionMoving.getArcLocation()
+        result += (this.directionMoving.getArcLocation() == 0) ? "" : ("moving " + (int) this.directionMoving.getArcLocation()
                 + " (" + this.directionMoving.getLocationHeading() + ")");
         if (baseHeading == -1) {
             result += "\n";
-        }else {
+        } else {
             result += "\nBase Heading " + baseHeading + " (" + baseCompassHeading + ")";
         }
         if (baseGPSAccuracy != -1) {
