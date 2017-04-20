@@ -4,6 +4,10 @@
     <string name="heading_grouping">Dolphin Social Grouping</string>
     <string name="group_sighting_message">  ***   GROUP SIGHTING   ***</string>
     <string name="heading_additional_text">Please enter your additional comments:</string>
+    <!-- drawablePath and idPath contain the path to the projects drawable and id paths -->
+    <!-- if these change for the project,  these 2 need to change to reflect the new paths-->
+    <string name="drawablePath">"com.valenciaprogrammers.dolphintracking:drawable/"</string>
+    <string name="idPath">"com.valenciaprogrammers.dolphintracking:id/"</string>
     <string name="action_save">SAVE</string>
     <string name="action_group_off">G?</string>
     <string name="action_group_on">G!</string>
