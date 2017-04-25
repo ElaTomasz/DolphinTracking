@@ -59,11 +59,12 @@ public class Distance {
 
         double rad1 = radius + mapForm.getFirstCircleDistanceInPoints();
         double rad2 = (((rad1) / mapForm.getEquiDistanceInPoints()) * mapForm.getMetersDistancePerCircle());
-        // adjust the distance to account for the unequal distance betweeen the circles in the polat map image
+        // adjust the distance to account for the unequal distance betweeen the circles in the polar map image
         // if the image is replaced with one that has equidistance between the circles,
         //                                                              the logic below is not necessary
-        int circlesOut = (int) (rad2 / mapForm.getMetersDistancePerCircle());
-        int [] adjust = {1,2,1,1,2,3,2,3,4,3,3,3,3};
+        // Limit the number of circles out to a max of 10 to prevent app abort.
+        int circlesOut = Math.min((int) (rad2 / mapForm.getMetersDistancePerCircle()),10);
+        int [] adjust = {1,2,1,1,2,3,2,3,4,3,3};
         int ret = (int) rad2 + adjust[circlesOut];
         return (ret < 0 ? 0 : ret);
     }
