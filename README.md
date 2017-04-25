@@ -10,7 +10,7 @@ The data is saved in a local sqlite database.  The data can be exported from the
  * The app was developed using Android Studio version 2.3.1
  * Build SDK API 25: Android 7.1.1 (Nougat)
  * Data Storage is a local 2 table sqlite database.
- * Data/audio files are saved in subfolders of the local directory /Dolphin Tracker.
+ * csv/audio files are saved in subfolders of the local directory /Dolphin Tracker.
  * For GPS classes:
         In order for this class to work, you must put the following line of code in the build.gradle(Module: app) file
         compile 'com.google.android.gms:play-services-location:8.4.0'
