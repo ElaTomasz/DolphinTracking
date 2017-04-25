@@ -4,11 +4,11 @@ The dolphin sighting attributes that can be selected are:  dolphin size, color, 
 A polar plot is displayed on the main screen to allow recording the position the dolphin is sighted in relation to the recording location; usually a boat.  If the dolphin is moving in a visible direction, the direction can also be recorded.
 While the app has many attributes that can be selected, it also allows the audio recording or text entry of additional information to be saved with the sighting data.
 
-The app was developed p was developed using Android Studio version 2.3.1
+ * The app was developed using Android Studio version 2.3.1
  * Build SDK API 25: Android 7.1.1 (Nougat)
 
-For GPS classes:
-In order for this class to work, you must put the following line of code in the build.gradle(Module: app) file
+ * For GPS classes:
+        In order for this class to work, you must put the following line of code in the build.gradle(Module: app) file
         compile 'com.google.android.gms:play-services-location:8.4.0'
         
         
