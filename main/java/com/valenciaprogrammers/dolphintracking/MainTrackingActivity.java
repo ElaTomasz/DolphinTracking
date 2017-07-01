@@ -107,6 +107,7 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
     private DolphinSighting dd = null;
     private String dolphinSpecies = "";
     private String groupCode = "";
+    private String groupObservationTime = "";
     private String socialGrouping = "";
     private boolean saveOnReturn = true;
     private Compass compass;
@@ -266,6 +267,8 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
                     gpsHelper.restartGPS();  // Start the GPS when the user touches the screen and the GPS is currently not running
                 }
                 touchDown = new PointF(ev.getX(), ev.getY());
+                dolphinSighting.setDateTimeOfObservation(Time.getFullDateTime());
+                System.out.println("/n  Time of Observation   ( " + dolphinSighting.getDateTimeOfObservation());
                 System.out.println("/n  Down : (X,Y)   ( " + touchDown.x + "," + touchDown.y + " )");
                 System.out.println("/n  Center : (X,Y)   ( " + imageCenterPoint.x + "," + imageCenterPoint.y + " )");
                 Distance distance = new Distance(mapForm, imageCenterPoint, touchDown);
@@ -502,6 +505,7 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
         if (groupCode.length() > 0) {
             dolphinSighting.setDolphinGroupCode(groupCode);
             dolphinSighting.setDolphinSocialGrouping(socialGrouping);
+            groupObservationTime = dolphinSighting.getDateTimeOfObservation();
         }
         if (isAvailableGPS & gpsHelper != null) {
             gpsInfo = gpsHelper.getLatestCoordinates();
@@ -532,6 +536,7 @@ public class MainTrackingActivity extends AppCompatActivity implements SensorEve
             if (groupCode == "") {
                 displayMessage("Sighting\nDolphins\nData");
             } else {
+                dolphinSighting.setDateTimeOfObservation(groupObservationTime);
                 drawAMark(touchDownDraw, touchUpDraw);
                 displayMessage(dolphinSighting.shortToString());
             }
